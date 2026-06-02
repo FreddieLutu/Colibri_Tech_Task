@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wind_pipeline"
+version = "0.1.0"
+description = "Wind turbine telemetry pipeline (bronze/silver/gold) on PySpark."
+requires-python = ">=3.9"
+dependencies = [
+    "pyspark>=3.4,<4.0",
+    "pandas>=1.5",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[project.scripts]
+wind-pipeline = "wind_pipeline.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"

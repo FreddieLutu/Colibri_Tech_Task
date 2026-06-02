@@ -1,5 +1,22 @@
-from __future__ import annotations
+# Databricks notebook source
+# MAGIC %md
+# MAGIC # TDD step 2 — silver cleaning rules
+# MAGIC
+# MAGIC Three behaviours to lock in, in this order. Each must go red before
+# MAGIC you write code, then green.
+# MAGIC
+# MAGIC 1. drops rows missing a key field
+# MAGIC 2. nulls impossible domain values, then imputes
+# MAGIC 3. deduplicates on (timestamp, turbine_id)
+# MAGIC
+# MAGIC Resist the urge to write all the code first. The rule above is the
+# MAGIC order in which the cleaning module grows.
 
+# COMMAND ----------
+# MAGIC %pip install -e /Workspace/Users/freddielutu@gmail.com/Colibri_Tech_Task
+# MAGIC dbutils.library.restartPython()
+
+# COMMAND ----------
 from datetime import datetime
 from typing import Callable
 
@@ -11,6 +28,7 @@ pytest.importorskip("wind_pipeline.clean", reason="implement clean module")
 from wind_pipeline.clean import clean  # noqa: E402
 
 
+# COMMAND ----------
 def test_drops_rows_missing_key_fields(
     spark: SparkSession,
     raw_schema: StructType,
@@ -27,6 +45,7 @@ def test_drops_rows_missing_key_fields(
     assert out[0]["turbine_id"] == 1
 
 
+# COMMAND ----------
 def test_imputes_impossible_and_missing_measurements(
     spark: SparkSession,
     raw_schema: StructType,
@@ -46,6 +65,7 @@ def test_imputes_impossible_and_missing_measurements(
     assert out[ts(4)]["power_output"] == 2.0
 
 
+# COMMAND ----------
 def test_deduplicates_on_timestamp_and_turbine(
     spark: SparkSession,
     raw_schema: StructType,
