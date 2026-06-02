@@ -1,0 +1,32 @@
+bundle:
+  name: wind_pipeline
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog to write Delta tables into.
+  source_volume:
+    description: UC Volume path containing data_group_*.csv.
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-b527639a-f6fe.cloud.databricks.com
+    variables:
+      catalog: wind_dev
+      source_volume: /Volumes/wind_dev/raw/turbines
+
+  # prod:
+  #   mode: production
+  #   workspace:
+  #     host: https://<your-workspace>.cloud.databricks.com
+  #     root_path: /Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+  #   variables:
+  #     catalog: wind_prod
+  #     source_volume: /Volumes/wind_prod/raw/turbines
+  #   run_as:
+  #     service_principal_name: <prod-sp-app-id>
