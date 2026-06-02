@@ -57,8 +57,8 @@ def ingest_clean(argv: Sequence[str] | None = None) -> int:
     logger.info("ingest_clean | catalog=%s | source=%s", args.catalog, args.source_volume)
 
     spark = _build_databricks_spark()
-    from .ingest import read_raw
-    from .clean import clean
+    from .bronze.ingest import read_raw
+    from .silver.clean import clean
 
     bronze = read_raw(spark, args.source_volume)
     silver = clean(bronze)
@@ -83,7 +83,7 @@ def summarise(argv: Sequence[str] | None = None) -> int:
     logger.info("summarise | catalog=%s", args.catalog)
 
     spark = _build_databricks_spark()
-    from .stats import summarise as _summarise
+    from .gold.stats import summarise as _summarise
 
     silver = spark.table(f"{args.catalog}.silver.power_readings")
     summary = _summarise(silver)
@@ -112,7 +112,7 @@ def detect_anomalies(argv: Sequence[str] | None = None) -> int:
     )
 
     spark = _build_databricks_spark()
-    from .anomalies import detect_anomalies as _detect
+    from .gold.anomalies import detect_anomalies as _detect
 
     summary = spark.table(f"{args.catalog}.gold.daily_summary")
     anomalies = _detect(summary, args.std_threshold)

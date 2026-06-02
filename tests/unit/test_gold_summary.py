@@ -18,8 +18,8 @@ import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType
 
-pytest.importorskip("wind_pipeline.stats", reason="implement stats module")
-from wind_pipeline.stats import summarise  # noqa: E402
+pytest.importorskip("wind_pipeline.gold.stats", reason="implement stats module")
+from wind_pipeline.gold.stats import summarise  # noqa: E402
 
 
 # COMMAND ----------

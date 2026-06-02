@@ -24,8 +24,8 @@ import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType
 
-pytest.importorskip("wind_pipeline.clean", reason="implement clean module")
-from wind_pipeline.clean import clean  # noqa: E402
+pytest.importorskip("wind_pipeline.silver.clean", reason="implement clean module")
+from wind_pipeline.silver.clean import clean  # noqa: E402
 
 
 # COMMAND ----------

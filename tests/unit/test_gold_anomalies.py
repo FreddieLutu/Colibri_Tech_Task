@@ -29,8 +29,8 @@ from pyspark.sql.types import (
     StructType,
 )
 
-pytest.importorskip("wind_pipeline.anomalies", reason="implement anomalies module")
-from wind_pipeline.anomalies import detect_anomalies  # noqa: E402
+pytest.importorskip("wind_pipeline.gold.anomalies", reason="implement anomalies module")
+from wind_pipeline.gold.anomalies import detect_anomalies  # noqa: E402
 
 SummaryRow = tuple[int, date, float, float, float, int]
 
