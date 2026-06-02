@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wind_pipeline"
 version = "0.1.0"
-description = "Wind turbine telemetry pipeline (bronze/silver/gold) on PySpark."
+description = "Wind turbine telemetry pipeline (bronze/silver/gold) on PySpark with SQLite sink."
 requires-python = ">=3.9"
 dependencies = [
     "pyspark>=3.4,<4.0",
@@ -20,6 +20,13 @@ test = [
 
 [project.scripts]
 wind-pipeline = "wind_pipeline.__main__:main"
+
+# Per-stage entry points referenced by resources/wind_pipeline.job.yml.
+# Each Databricks job task invokes one of these.
+[project.entry-points."wind_pipeline"]
+ingest_clean     = "wind_pipeline.entrypoints:ingest_clean"
+summarise        = "wind_pipeline.entrypoints:summarise"
+detect_anomalies = "wind_pipeline.entrypoints:detect_anomalies"
 
 [tool.setuptools.packages.find]
 where = ["src"]
